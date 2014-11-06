@@ -16,6 +16,12 @@ public class WebHdfsConnector extends BaseService implements HdfsConnector {
 	private String user;
 	private String uri;
 
+	/**
+	 * Constructor method
+	 * @param host ip adress or hostname
+	 * @param port port number
+	 * @param user user name
+	 */
 	public WebHdfsConnector(String host, int port, String user) {
 		super();
 		this.host = host;
