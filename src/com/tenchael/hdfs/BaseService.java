@@ -224,8 +224,8 @@ public abstract class BaseService {
 		return sb.toString();
 	}
 
-	protected String create(File file, String uri, Map<String, String> params) {
-		JSONObject ret = new JSONObject();
+	/*protected String requestNameNode(File file, String uri,
+			Map<String, String> params) {
 		uri = uri.trim();
 		if (uri.endsWith("/")) {
 			uri += file.getName();
@@ -237,14 +237,19 @@ public abstract class BaseService {
 		JSONObject bean = JSONObject.fromObject(json);
 		Object obj = bean.get(ATTR_HEADER);
 		JSONObject header = JSONObject.fromObject(obj);
-		String location = header.getString("Location");
+		return header.getString("Location");
+	}*/
 
-		this.uploadFile(location, file);
-
-		return ret.toString();
+	protected String requestNameNode(String uri, Map<String, String> params) {
+		uri = uri.trim();
+		String json = doPut(uri, params);
+		JSONObject bean = JSONObject.fromObject(json);
+		Object obj = bean.get(ATTR_HEADER);
+		JSONObject header = JSONObject.fromObject(obj);
+		return header.getString("Location");
 	}
 
-	private void uploadFile(String uri, File file) {
+	protected void requestDataNode(String uri, File file) {
 		try {
 			CloseableHttpClient httpclient = HttpClients.createDefault();
 			HttpPut httpput = new HttpPut(uri); // HttpPost httpput = new

@@ -19,7 +19,7 @@ public class TestWebHdfsConnector extends TestCase {
 			"root");
 
 	public void testGetStatus() {
-		String remotePath = "/user/upload";
+		String remotePath = "/user/upload/test.java";
 		String msg = connector.getStatus(remotePath);
 		System.out.println(msg);
 	}
@@ -77,6 +77,12 @@ public class TestWebHdfsConnector extends TestCase {
 		String localFilePath = "d:/test.java";
 		String remoteDirectory = "/user/upload/";
 		connector.upload(localFilePath, remoteDirectory);
+	}
+
+	public void testCreate() throws FileNotFoundException {
+		String localFilePath = "d:/test.java";
+		String remoteFilePath = "/user/upload/test2.java";
+		connector.create(localFilePath, remoteFilePath);
 	}
 
 }

@@ -12,7 +12,7 @@ public interface HdfsConnector {
 	 *            The path of a file or directory in remote
 	 * @return The result of operation with the format of json
 	 */
-	public String getStatus(String remotePath);
+	public String getStatus(final String remotePath);
 
 	/**
 	 * Create a directory of remote hdfs
@@ -21,7 +21,7 @@ public interface HdfsConnector {
 	 *            The path of the directory in remote hdfs
 	 * @return The result of operation with the format of json
 	 */
-	public String mkdir(String remotePath);
+	public String mkdir(final String remotePath);
 
 	/**
 	 * Rename a file or directory in remote hdfs
@@ -32,7 +32,7 @@ public interface HdfsConnector {
 	 *            The new name
 	 * @return The result of operation with the format of json
 	 */
-	public String rename(String oldName, String newName);
+	public String rename(final String oldName, final String newName);
 
 	/**
 	 * Delete a file or directory in remote hdfs
@@ -41,7 +41,7 @@ public interface HdfsConnector {
 	 *            The path of a file or directory
 	 * @return The result of operation with the format of json
 	 */
-	public String delete(String remotePath);
+	public String delete(final String remotePath);
 
 	/**
 	 * List all items under a directory
@@ -50,7 +50,7 @@ public interface HdfsConnector {
 	 *            The directory in remote hdfs
 	 * @return The result of operation with the format of json
 	 */
-	public String list(String remoteDirectory);
+	public String list(final String remoteDirectory);
 
 	/**
 	 * Download a file from remote hdfs
@@ -61,7 +61,7 @@ public interface HdfsConnector {
 	 *            The outputStream for output
 	 * @throws IOException
 	 */
-	public InputStream download(String remoteFilePath) throws IOException;
+	public InputStream download(final String remoteFilePath) throws IOException;
 
 	/**
 	 * Upload a file to remote hdfs
@@ -73,7 +73,19 @@ public interface HdfsConnector {
 	 * @return The result of operation with the format of json
 	 * @throws FileNotFoundException
 	 */
-	public String upload(String localFilePath, String remoteDirectory)
+	public void upload(final String localFilePath, final String remoteDirectory)
+			throws FileNotFoundException;
+
+	/**
+	 * Create a file at remote hdfs
+	 * 
+	 * @param localFilePath
+	 *            The path of local file
+	 * @param remoteFilePath
+	 *            The path of remote file in hdfs
+	 * @throws FileNotFoundException
+	 */
+	public void create(final String localFilePath, final String remoteFilePath)
 			throws FileNotFoundException;
 
 }

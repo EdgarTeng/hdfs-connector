@@ -84,14 +84,37 @@ public class WebHdfsConnector extends BaseService implements HdfsConnector {
 		return super.doGetAsStream(getUri() + remoteFilePath, params);
 	}
 
-	public String upload(String localFilePath, String remoteDirectory)
+	public void upload(String localFilePath, String remoteDirectory)
 			throws FileNotFoundException {
 		uri = jointUri();
+
+		File file = new File(localFilePath);
+		String fullRemoteUri = remoteDirectory.trim();
+		if (fullRemoteUri.endsWith("/")) {
+			fullRemoteUri = (uri + fullRemoteUri + file.getName());
+		} else {
+			fullRemoteUri = (uri + fullRemoteUri + "/" + file.getName());
+		}
+
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(KEY_USERNAME, getUser());
 		params.put(KEY_OP, OP_CREATE);
-		return super.create(new File(localFilePath),
-				getUri() + remoteDirectory, params);
+		String location = super.requestNameNode(fullRemoteUri, params);
+		super.requestDataNode(location, file);
+	}
+
+	@Override
+	public void create(String localFilePath, String remoteFilePath)
+			throws FileNotFoundException {
+		uri = jointUri();
+
+		File file = new File(localFilePath);
+		String fullRemoteUri = uri + remoteFilePath.trim();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(KEY_USERNAME, getUser());
+		params.put(KEY_OP, OP_CREATE);
+		String location = super.requestNameNode(fullRemoteUri, params);
+		super.requestDataNode(location, file);
 	}
 
 	public String getHost() {
