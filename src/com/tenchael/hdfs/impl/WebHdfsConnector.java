@@ -1,4 +1,4 @@
-package com.tenchael.hdfs;
+package com.tenchael.hdfs.impl;
 
 import static com.tenchael.hdfs.util.Constants.*;
 
@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.tenchael.hdfs.HdfsConnector;
 import com.tenchael.hdfs.util.Constants;
 
 public class WebHdfsConnector extends BaseService implements HdfsConnector {
@@ -42,7 +43,7 @@ public class WebHdfsConnector extends BaseService implements HdfsConnector {
 		uri = jointUri();
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(KEY_OP, OP_GETFILESTATUS);
-		return super.doGetAsString(getUri() + remotePath, params);
+		return super.doGetAsString(getUri() + remotePath.trim(), params);
 	}
 
 	public String mkdir(String remotePath) {
@@ -50,7 +51,7 @@ public class WebHdfsConnector extends BaseService implements HdfsConnector {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(KEY_OP, OP_MKDIRS);
 		params.put(KEY_USERNAME, getUser());
-		return super.doPut(getUri() + remotePath, params);
+		return super.doPut(getUri() + remotePath.trim(), params);
 	}
 
 	public String rename(String oldName, String newName) {
@@ -58,8 +59,8 @@ public class WebHdfsConnector extends BaseService implements HdfsConnector {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(KEY_OP, OP_RENAME);
 		params.put(KEY_USERNAME, getUser());
-		params.put(KEY_DESTINATION, newName);
-		return super.doPut(getUri() + oldName, params);
+		params.put(KEY_DESTINATION, newName.trim());
+		return super.doPut(getUri() + oldName.trim(), params);
 	}
 
 	public String delete(String remotePath) {
@@ -67,21 +68,21 @@ public class WebHdfsConnector extends BaseService implements HdfsConnector {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(KEY_OP, OP_DELETE);
 		params.put(KEY_USERNAME, getUser());
-		return super.doDelete(getUri() + remotePath, params);
+		return super.doDelete(getUri() + remotePath.trim(), params);
 	}
 
 	public String list(String remoteDirectory) {
 		uri = jointUri();
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(KEY_OP, OP_LISTSTATUS);
-		return super.doGetAsString(getUri() + remoteDirectory, params);
+		return super.doGetAsString(getUri() + remoteDirectory.trim(), params);
 	}
 
 	public InputStream download(String remoteFilePath) throws IOException {
 		uri = jointUri();
 		Map<String, String> params = new HashMap<String, String>();
 		params.put(KEY_OP, OP_OPEN);
-		return super.doGetAsStream(getUri() + remoteFilePath, params);
+		return super.doGetAsStream(getUri() + remoteFilePath.trim(), params);
 	}
 
 	public void upload(String localFilePath, String remoteDirectory)
@@ -122,7 +123,7 @@ public class WebHdfsConnector extends BaseService implements HdfsConnector {
 	}
 
 	public void setHost(String host) {
-		this.host = host;
+		this.host = host.trim();
 	}
 
 	public int getPort() {
@@ -138,7 +139,7 @@ public class WebHdfsConnector extends BaseService implements HdfsConnector {
 	}
 
 	public void setUser(String user) {
-		this.user = user;
+		this.user = user.trim();
 	}
 
 	public String getUri() {

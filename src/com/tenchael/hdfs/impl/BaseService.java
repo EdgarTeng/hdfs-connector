@@ -1,4 +1,4 @@
-package com.tenchael.hdfs;
+package com.tenchael.hdfs.impl;
 
 import static com.tenchael.hdfs.util.Constants.*;
 

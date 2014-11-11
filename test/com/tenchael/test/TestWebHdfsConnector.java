@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.tenchael.hdfs.HdfsConnector;
-import com.tenchael.hdfs.WebHdfsConnector;
+import com.tenchael.hdfs.impl.WebHdfsConnector;
 
 import junit.framework.TestCase;
 
@@ -19,26 +19,29 @@ public class TestWebHdfsConnector extends TestCase {
 			"root");
 
 	public void testGetStatus() {
-		String remotePath = "/user/upload/test.java";
+		String remotePath = "/user/upload/";
 		String msg = connector.getStatus(remotePath);
 		System.out.println(msg);
 	}
 
 	public void testMkdir() {
-		String remotePath = "/user/upload";
+		String remotePath = "/user/upload/.temp2/";
 		String msg = connector.mkdir(remotePath);
 		System.out.println(msg);
+		//assertEquals(true, false);
+		//assertEquals("tzz", "lxy");
+		assertEquals(1, 1);
 	}
 
 	public void testRename() {
-		String oldName = "/user/upload/test.java";
-		String newName = "/user/upload/test2.java";
+		String oldName = "/user/upload/.temp2";
+		String newName = "/user/upload/.temp3";
 		String msg = connector.rename(oldName, newName);
 		System.out.println(msg);
 	}
 
 	public void testDelete() {
-		String remotePath = "/user/upload/test2.java";
+		String remotePath = "/user/upload/test.java";
 		String msg = connector.delete(remotePath);
 		System.out.println(msg);
 	}
@@ -50,10 +53,16 @@ public class TestWebHdfsConnector extends TestCase {
 	}
 
 	public void testDownload() throws IOException {
-		String remoteFilePath = "/user/upload/test.java";
-		String localFilePath = "d:/test2.java";
+		String remoteFilePath = " /user/upload/test.java";
+		String localFilePath = "d:/files/testt.java";
+
+		File file = new File(localFilePath);
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+
 		DataOutputStream out = new DataOutputStream(new BufferedOutputStream(
-				new FileOutputStream(new File(localFilePath))));
+				new FileOutputStream(file)));
 		InputStream in = connector.download(remoteFilePath);
 
 		int bufferSize = 8192;
@@ -74,14 +83,14 @@ public class TestWebHdfsConnector extends TestCase {
 	}
 
 	public void testUpload() throws FileNotFoundException {
-		String localFilePath = "d:/test.java";
+		String localFilePath = "D:/files/bills.txt";
 		String remoteDirectory = "/user/upload/";
 		connector.upload(localFilePath, remoteDirectory);
 	}
 
 	public void testCreate() throws FileNotFoundException {
-		String localFilePath = "d:/test.java";
-		String remoteFilePath = "/user/upload/test2.java";
+		String localFilePath = "D:/files/bills.txt";
+		String remoteFilePath = "/user/upload/test3.java";
 		connector.create(localFilePath, remoteFilePath);
 	}
 
